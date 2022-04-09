@@ -5,7 +5,7 @@ import Main from './pages/Main';
 import Header from './components/Header';
 import Detail from './pages/Detail';
 
-function App() {
+function App(props) {
   return (
     <>
       <AppWrap>
@@ -14,7 +14,7 @@ function App() {
       <ContentWrap>
         <BrowserRouter>
           <Route path="/" exact component={Main}/>
-          <Route path="/detail" exact component={Detail}/>
+          <Route path="/detail/:idx" exact component={Detail}/>
         </BrowserRouter>
       </ContentWrap>
       
