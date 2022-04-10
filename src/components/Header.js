@@ -17,7 +17,8 @@ const Header = (props) => {
             size="20px" 
             bold
         >
-            웹 페이지 제목
+            {/* 치킨 어때? 로 바꾸기 */}
+            웹 페이지 제목   
          </Text>
 
          <ButtonContainer>
