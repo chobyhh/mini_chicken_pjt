@@ -28,12 +28,10 @@ function App(props) {
   );
 }
 
-
-
 const AppWrap = styled.div`
   margin: 0 auto;
   margin-bottom: 12px;
-  padding: 0px 40px;
+  padding: 0px 40px;git
   max-width: 1100px;
   box-sizing: border-box;
 `
