@@ -9,7 +9,7 @@ import Signup from "./pages/Signup";
 // import {Grid} from "./elements";
 
 
-function App() {
+function App(props) {
   return (
     <>
       <AppWrap>

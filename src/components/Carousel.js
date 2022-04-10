@@ -17,11 +17,11 @@ const Carousel = () => {
     return (
         <div> 
             <Slider className="carousel" {...settings}> 
-                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A"/>
-                <img src="https://t1.daumcdn.net/cfile/tistory/996EE14A5EB4A58F2A"/>
-                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A"/>
-                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A"/>
-                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A"/>
+                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A" alt="img"/>
+                <img src="https://t1.daumcdn.net/cfile/tistory/996EE14A5EB4A58F2A" alt="img"/>
+                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A" alt="img"/>
+                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A" alt="img"/>
+                <img src="https://t1.daumcdn.net/cfile/tistory/996EB54A5EB4A58E2A" alt="img"/>
             </Slider> 
         </div> 
     );
