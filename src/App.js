@@ -4,6 +4,10 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Main from './pages/Main';
 import Header from './components/Header';
 import Detail from './pages/Detail';
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+// import {Grid} from "./elements";
+
 
 function App() {
   return (
@@ -14,13 +18,17 @@ function App() {
       <ContentWrap>
         <BrowserRouter>
           <Route path="/" exact component={Main}/>
-          <Route path="/detail" exact component={Detail}/>
+          <Route path="/detail/:idx" exact component={Detail}/>
+          <Route path="/login" exact component={Login}/>
+          <Route path="/signup" exact component={Signup}/>
         </BrowserRouter>
       </ContentWrap>
       
     </> 
   );
 }
+
+
 
 const AppWrap = styled.div`
   margin: 0 auto;
