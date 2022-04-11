@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Image } from '../elements'
-import { useHistory } from 'react-router-dom';
 import Data from './data';
-
+import {history} from "../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators } from '../redux/modules/postt';
 
 const Post = () => {
 
-    const[brand, setBrand] = useState(Data);
-    const history = useHistory();
+    const post_list = useSelector((state) => state.post.list);
+    //이부분이 데이터가 없어서 catch 에러가 떴던겁니다.
+
+    const brand_list = post_list.restaurants
+    // 이렇게 데이터가 있는 restaurants라는 배열로 들어가면서 해결이 되었으나
+    // 다른 문제로 새로고침을 하면 데이터가 다 사라지는 현상이 발생함
+    // 아래 옵셔널 체이닝 문제였고 brand_list ? 이 물음표를 써주니 문제해결
+    console.log("포스트",post_list.restaurants);
+    console.log("메뉴",brand_list);
+    const dispatch = useDispatch();
+  
+    React.useEffect(() => {
+      dispatch(actionCreators.getPostMD());
+    }, []);
+  
+    
     return (
         
         <PostListWrap>
             {
-            brand.map((e,i)=>{
+            brand_list?.map((e,i)=>{
+                // console.log("로고 인덱스",logo[i])   
                 return(
-                    <div onClick={()=>{history.push("/detail/"+i)}}>
-                        <Brand brand={brand[i]} i={i} key={i} />
+                    <div onClick={()=>{history.push("/restaurants/"+i)}} key={i}>
+                        <Image src={e.restaurantImg}/>
                     </div>
                 )
             })
@@ -26,14 +42,13 @@ const Post = () => {
 };
 
 
-function Brand(props){
-    const history = useHistory();
-    return(
-        <div>
-            <Image width="100%" height="100%" src={props.brand.bimg} />
-        </div>
-    )
-}
+// function Brand(props){
+//     return(
+//         <div>
+//             <Image width="100%" height="100%" src={props.brand.bimg} />
+//         </div>
+//     )
+// }
 
 const PostListWrap = styled.div`
   display: grid;

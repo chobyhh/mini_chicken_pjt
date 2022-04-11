@@ -1,43 +1,38 @@
 import React from 'react'
 import styled from 'styled-components';
 import { Text, Button } from '../elements'
-import { useHistory } from 'react-router-dom';
-
+import {history} from "../redux/configStore";
 
 const Header = (props) => {
-    const history = useHistory();
-
+  
+ 
     return (
         <HeaderContainer>
+          <div>
             <Text 
-            is_cursor
-            _onClick={() => {
-            history.replace('/');
-            }}
-            size="20px" 
-            bold
-        >
-            {/* 치킨 어때? 로 바꾸기 */}
-            웹 페이지 제목   
-         </Text>
+              is_cursor
+              _onClick={()=>{history.replace('/')}}
+              size="20px" 
+              bold
+            >
+              {/* 치킨 어때? 로 바꾸기 */}
+              웹 페이지 제목   
+            </Text>
+          </div>
 
          <ButtonContainer>
           <Button 
             margin="0px 10px 0px 0px"
             text-size="16px" 
             width="100px"
-            _onClick={() => {
-              history.replace('/login')
-            }}
+            _onClick={()=>{history.replace('/login')}}
           >
             로그인
           </Button>
           <Button 
             text-size="16px"
             width="100px"
-            _onClick={() => {
-              history.replace('/signup')
-            }} 
+            _onClick={()=>{history.replace("/signup")}}
           >
             회원가입
           </Button>
