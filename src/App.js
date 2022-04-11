@@ -18,7 +18,7 @@ function App(props) {
       <ContentWrap>
         <BrowserRouter>
           <Route path="/" exact component={Main}/>
-          <Route path="/detail/:idx" exact component={Detail}/>
+          <Route path="/restaurants/:id" exact component={Detail}/>
           <Route path="/login" exact component={Login}/>
           <Route path="/signup" exact component={Signup}/>
         </BrowserRouter>
