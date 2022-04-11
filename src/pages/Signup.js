@@ -1,5 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { Grid, Text, Input, Button } from "../elements";
+
+import { actionCreators as userActions } from '../redux/modules/user';
 
 const Signup = (props) => {
   return (
@@ -14,7 +18,7 @@ const Signup = (props) => {
             label="아이디"
             placeholder="아이디를 입력해주세요."
             _onChange={() => {
-              console.log("!!");
+              console.log("아이디입력완료");
             }}
           />
         </Grid>
@@ -25,7 +29,7 @@ const Signup = (props) => {
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요."
             _onChange={() => {
-              console.log("!!");
+              console.log("비밀번호입력완료");
             }}
           />
         </Grid>
@@ -35,16 +39,24 @@ const Signup = (props) => {
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 입력해주세요."
             _onChange={() => {
-              console.log("!!");
+              console.log("비밀번호확인완료");
             }}
           />
         </Grid>
 
-        <Button text="회원가입하기"></Button>
+        <Button 
+            type="submit"
+            onClick={handleLogin}
+            text="회원가입하기">
+        </Button>
       </Grid>
     </React.Fragment>
   );
 };
+
+
+
+
 
 Signup.defaultProps = {};
 

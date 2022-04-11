@@ -1,8 +1,35 @@
 import React from "react";
+import styled from "styled-components";
 import { Text, Input, Grid, Button } from "../elements";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 
+// // redux
+// import { useDispatch } from 'react-redux';
+// import { userCreators } from '../modules/user';
+// import { useSelector } from 'react-redux';
+
+const history = useHistory();
+const dispatch = useDispatch();
+
+const handleIdInput = (e) => {
+    setId(e.target.value)
+}
+
+const handlePasswordInput = (e) => {
+    setPassword(e.target.value)
+}
+
+
+const handleLogin = () => {
+    if (nickname === "" || password === "") {
+        window.alert("아이디 혹은 비밀번호가 공란입니다.")
+        return;
+    }
+    dispatch(userActions.loginDB(nickname, password));
+    
+}
 
 const Login = (props) => {
     return (
@@ -17,9 +44,9 @@ const Login = (props) => {
               label="아이디"
               placeholder="아이디를 입력해주세요."
               _onChange={() => {
-                console.log("아이디 입력했어!");
+                  set
               }}
-            />
+            />                                                                                                                                                             
           </Grid>
   
           <Grid padding="16px 0px">
@@ -27,7 +54,7 @@ const Login = (props) => {
               label="패스워드"
               placeholder="패스워드 입력해주세요."
               _onChange={() => {
-                console.log("패스워드 입력했어!");
+                console.log("패스워드 입력완료");
               }}
             />
           </Grid>
@@ -43,7 +70,6 @@ const Login = (props) => {
     );
   };
   
-
 
 
 
