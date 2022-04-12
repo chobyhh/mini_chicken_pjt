@@ -1,78 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, Component, useRef  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Input, Button, WriteInput } from '../elements';
 import { actionCreators as commentActions } from '../redux/modules/comment';
 
-import { useParams } from "react-router-dom";
 
 
 const CommentWrite = (props) => {
   const dispatch = useDispatch();
 
-  const [comment, setComment] = useState("");
-  const [is_login, setIsLogin] = useState(true);
-  
-  
-  const params = useParams();
-  const list_id = params.id
 
-  const menu_list = useSelector((store) => store.post.logo[list_id].menu);
-  
-  
-  //const is_login = useSelector(state => state.user.isLogin);
+  const [comment, setComment] = useState([{
+    menu:"", 
+    comm:""
+  }]);
+  const {menu, comm} = comment;
 
+  // const [selected, setSelected] = useState();
+  const [is_login, setLogin] = useState(true);
+  // const is_login = useSelector(state => state.user.isLogin);
 
-  const writeComment = () => {
-    if(!is_login) {
-      window.alert("로그인 후 이용 가능합니다!")
-      return
-    }
-    
-    if(!comment){
-      window.alert("댓글을 입력해주세요!")
-      return;
-    }
-    dispatch(commentActions.addCommentDB(props.post_id, comment));
+  const comment_list = useSelector(state => state.comment.list);
+  
+  const onChange = (e) => {
+    setComment({})
   }
+
+  // const selectHandler = (e) => {
+  //   setComment(e.target.value)
+  //   console.log("셀렉트",e.current.value)
+  //   alert(e.target.value)
+  // }
+  
+  // const handleSelect = (e) => {
+  //   setComment(e.target.value);
+  //   console.log("타겟",e.current.value)
+  // };
+  // const writeComment = () => {
+  //   if(!is_login) {
+  //     window.alert("로그인 후 이용 가능합니다!")
+  //     return
+  //   }
+    
+  //   if(!comment){
+  //     window.alert("댓글을 입력해주세요!")
+  //     return;
+  //   }
+  //   dispatch(commentActions.addCommentDB(props.post_id, comment));
+  // }
 
   return (
     <>
       <WriteWrap>
-        <CommentSelect>
+      <CommentSelect>
             {
-                menu_list.map((e, i) => (
+                comment_list.menus?.map((e, i) => (
                     <option
-					    key={i}
-					    value={e.name}
-					    defaultValue={props.defaultValue === e.name}
-				    >
-					{e.name}
-				    </option> 
-             ))
+                      key={i}
+
+                      value={menu}
+                      defaultValue={props.defaultValue === menu}
+                      onChange={onChange}
+                    >
+                      {e.menuTitle}
+                    </option> 
+                ))
             }
         </CommentSelect>
         <CommentInput 
-          placeholder="댓글을 입력해주세요!" 
-          value={comment}
-          onChange={(e) => {
-            setComment(e.target.value);
-          }}
+           placeholder="댓글을 입력해주세요!" 
+           value={comm}
+           onChange={onChange}  
+     
         />
         <Button 
           width="80px"
           _onClick={() => {
-            writeComment();
-            setComment("");
+            // writeComment();
+            console.log(comment.comm)
+            // setComment("");
           }}
         >
           작성
         </Button>
       </WriteWrap>
     </>
+    
   );
 };
+
+
 
 const WriteWrap = styled.div`
   margin: 0 auto;

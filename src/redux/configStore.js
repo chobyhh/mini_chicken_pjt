@@ -10,7 +10,7 @@ import user from "./modules/user"
 import comment from "./modules/comment";
 
 
-export const history = createBrowserHistory({forceRefresh: true});
+export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   post,

@@ -11,7 +11,7 @@ const CommentItem = (props) => {
   //const user = useSelector(state => state.user.userInfo);
 
   const [user, setUser] = useState(["test1"])
-
+  const comment_list = useSelector(state => state.comment.list);
 
   const [is_first, setIsFirst] = useState(true);
   const [is_edit, setIsEdit] = useState(false);
@@ -68,7 +68,7 @@ const CommentItem = (props) => {
       <CommnetWrap>
         <ContentWrap>
           <Text is_width="140px">{props.nickname}</Text>
-          <Text is_width="140px">{props.menu}</Text>
+          <Text is_width="140px">{props.chickenMenu}</Text>
           <Text>{props.comment}</Text>
         </ContentWrap>
         {
