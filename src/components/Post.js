@@ -15,8 +15,8 @@ const Post = () => {
     // 이렇게 데이터가 있는 restaurants라는 배열로 들어가면서 해결이 되었으나
     // 다른 문제로 새로고침을 하면 데이터가 다 사라지는 현상이 발생함
     // 아래 옵셔널 체이닝 문제였고 brand_list ? 이 물음표를 써주니 문제해결
-    console.log("포스트",post_list.restaurants);
-    console.log("메뉴",brand_list);
+    // console.log("포스트",post_list.restaurants);
+    // console.log("메뉴",brand_list);
     const dispatch = useDispatch();
   
     React.useEffect(() => {

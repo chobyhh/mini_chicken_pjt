@@ -12,25 +12,25 @@ const Header = (props) => {
             <Text 
               is_cursor
               _onClick={()=>{history.replace('/')}}
-              size="20px" 
+              size="22px" 
               bold
             >
               {/* 치킨 어때? 로 바꾸기 */}
-              웹 페이지 제목   
+              치킨 어때?   
             </Text>
           </div>
 
          <ButtonContainer>
           <Button 
             margin="0px 10px 0px 0px"
-            text-size="16px" 
+            text-size="20px" 
             width="100px"
             _onClick={()=>{history.replace('/login')}}
           >
             로그인
           </Button>
           <Button 
-            text-size="16px"
+            text-size="20px"
             width="100px"
             _onClick={()=>{history.replace("/signup")}}
           >

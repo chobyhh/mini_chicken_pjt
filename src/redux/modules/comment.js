@@ -1,6 +1,7 @@
 import produce from "immer";
 import { createAction, handleActions } from "redux-actions";
 import axios from "axios";
+import api from "../../api/api";
 
 const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
@@ -9,44 +10,59 @@ const DELETE_COMMENT = "DELETE_COMMENT";
 
 const getComment = createAction(GET_COMMENT, (comment_list) => ({ comment_list }));
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
-const editComment = createAction(EDIT_COMMENT, (comment_id, comment) => ({comment_id, comment}));
-const deleteComment = createAction(DELETE_COMMENT, (comment_idx) => ({ comment_idx }));
 
 const initialState = {
-  list: [],
+  list: [
+    // {
+    //   restaurantTitle: "bbq",
+    //   chickenMenu: "후라이드",
+    //   nickname: "asdf",
+    //   comment: "test1",
+    //   __v: 0
+    //   },
+    //   {
+    //   restaurantTitle: "bbq",
+    //   chickenMenu: "양념",
+    //   nickname: "bbb",
+    //   comment: "test2",
+    //   __v: 0
+    //   }
+
+  ],
 };
 
-const getCommentDB = (name) => {
-  return function (dispatch, getState, {history}) {
-    axios
-    .get(`http://pooreum.shop/restaurants/${name}`)
-    .then((res) => {
-      dispatch(getComment(res.data));
-      // /* dispatch(getComment(res.data)); */
+const getCommentDB = (post_id) => {
+    // const token = localStorage.getItem('token');
+    return async function (dispatch, getState, { history }) {
+      await api.get(`/restaurants/${post_id}`).then(function(response){
+        
+        // console.log("getComment",response)
+        // console.log("아이디",post_id)
+
+        dispatch(getComment(response.data))
+      // console.log(error);
     })
-    .catch((err) => {
-      console.log("댓글 조회 실패", err);
-    })
-  }
+  };
 }
 
-export default handleActions({
-  [GET_COMMENT]: (state, action) => produce(state, (draft) => {
-    draft.list = [];
-    draft.list.push(...action.payload.comment_list);
 
-    draft.list = draft.list.reduce((acc, cur) => {
-      if(acc.findIndex(a => a.commentId === cur.commentId) === -1) {
-        return [...acc, cur];
-      } else {
-        acc[acc.findIndex(a => a.commentId === cur.commentId)] = cur;
-        return acc;
-      }
-    }, [])
-  }),
+
+
+export default handleActions(
+  {
+    [GET_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        // draft.list = [];
+        // console.log(state);
+        // console.log("액션",action);
+        draft.list = action.payload.comment_list;
+        // console.log("드래프트",draft.list);
+
+      }),
+  },
+  initialState
+);
   
-
-}, initialState);
 
 const actionCreators = {
   getComment,
