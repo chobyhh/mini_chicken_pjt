@@ -5,6 +5,9 @@ import { Grid, Text, Input, Button } from "../elements";
 
 import { actionCreators as userActions } from '../redux/modules/user';
 
+
+
+
 const Signup = (props) => {
   return (
     <React.Fragment>
@@ -46,7 +49,9 @@ const Signup = (props) => {
 
         <Button 
             type="submit"
-            onClick={handleLogin}
+            onClick={() => {
+                console.log("회원가입완료");
+              }}
             text="회원가입하기">
         </Button>
       </Grid>
