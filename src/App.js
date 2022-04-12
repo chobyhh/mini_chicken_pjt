@@ -1,11 +1,13 @@
 import './App.css';
 import styled from 'styled-components';
-import {BrowserRouter, Route} from "react-router-dom";
+import { Route } from "react-router-dom";
 import Main from './pages/Main';
 import Header from './components/Header';
 import Detail from './pages/Detail';
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import { ConnectedRouter } from 'connected-react-router';
+import {history} from "./redux/configStore";
 // import {Grid} from "./elements";
 
 
@@ -16,12 +18,12 @@ function App(props) {
         <Header/>
       </AppWrap>
       <ContentWrap>
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <Route path="/" exact component={Main}/>
           <Route path="/restaurants/:id" exact component={Detail}/>
           <Route path="/login" exact component={Login}/>
           <Route path="/signup" exact component={Signup}/>
-        </BrowserRouter>
+        </ConnectedRouter>
       </ContentWrap>
       
     </> 

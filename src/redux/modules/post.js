@@ -28,6 +28,15 @@ const getPostMD = () => {
   };
 };
 
+const getOnePost = (postid) => {
+    return async function (dispatch, useState, {history}){
+      await api.get(`/api/detail/${postid}`).then(function(response){
+        console.log("하나 받아라",response.data.post);
+        dispatch(getPost(response.data.post));
+      })
+    }
+  }
+
 // reducer
 export default handleActions(
   {
@@ -37,6 +46,7 @@ export default handleActions(
         // console.log(action);
         draft.list = action.payload.post_list;
         // console.log(draft.list);
+
       }),
   },
   initialState
@@ -45,6 +55,7 @@ export default handleActions(
 const actionCreators = {
   getPost,
   getPostMD,
+  getOnePost
 };
 
 export { actionCreators };
