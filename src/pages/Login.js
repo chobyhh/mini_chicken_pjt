@@ -1,76 +1,93 @@
-// import React from "react";
-// import styled from "styled-components";
-// import { Text, Input, Grid, Button } from "../elements";
-// import { useHistory } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
+import UserInput from '../components/UserInput';
+import { Text, Button, } from '../elements';
+import { actionCreators as userActions } from '../redux/modules/user';
+// import { idCheck } from '../shared/common';
+
+const Login = (props) => {
+  const {history} = props
+  const dispatch = useDispatch();
+
+  const [nickname, setId] = useState("");
+  const [password, setPwd] = useState("");
+
+  const login = () => {
+    if(nickname === "" || password === "") {
+      window.alert("모두 입력해주세요!");
+      return;
+    }
 
 
-// // // redux
-// // import { useDispatch } from 'react-redux';
-// // import { userCreators } from '../modules/user';
-// // import { useSelector } from 'react-redux';
+    // if(!idCheck(id)) {
+    //   window.alert("이메일 형식이 맞지 않습니다!");
+    //   return;
+    // }
 
-// const history = useHistory();
-// const dispatch = useDispatch();
+    dispatch(userActions.loginDB(nickname, password));
+  }
 
-// const handleIdInput = (e) => {
-//     setId(e.target.value)
-// }
+  return (
+    <LoginWrap>
+      <Text margin="0px 0px 48px 0px" size="48px" bold>로그인</Text>
+      <ContentWrap>
+        <Text margin="0px 0px 8px 0px">이메일</Text>
+        <UserInput 
+          _onChange={(e) => {
+            setId(e.target.value);
+          }}
+          placeholder="이메일을 입력해주세요!" 
+          margin="0px 0px 36px 0px"
+          value={nickname} 
+        />
+        <Text margin="0px 0px 8px 0px">패스워드</Text>
+        <UserInput 
+          _onChange={(e) => {
+            setPwd(e.target.value);
+          }}
+          placeholder="패스워드를 입력해주세요!" 
+          margin="0px 0px 36px 0px" 
+          value={password}
+          type="password"
+        />
+      </ContentWrap>
+      <ButtonWrap>
+        <Button width="48%" _onClick={login}>로그인</Button>
+        <Button 
+          width="48%"
+          _onClick={()=>{
+            history.push('/signup')
+          }}
+        >
+          회원가입
+        </Button>
+      </ButtonWrap>
+    </LoginWrap>
+  );
+};
 
-// const handlePasswordInput = (e) => {
-//     setPassword(e.target.value)
-// }
+const LoginWrap = styled.div`
+  width: calc(90% - 400px);
+  padding: 80px 40px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export default Login;
 
 
-// const handleLogin = () => {
-//     if (nickname === "" || password === "") {
-//         window.alert("아이디 혹은 비밀번호가 공란입니다.")
-//         return;
-//     }
-//     dispatch(userActions.loginDB(nickname, password));
-    
-// }
-
-// const Login = (props) => {
-//     return (
-//       <React.Fragment>
-//         <Grid padding="16px">
-//           <Text size="32px" bold>
-//             로그인
-//           </Text>
-  
-//           <Grid padding="16px 0px">
-//             <Input
-//               label="아이디"
-//               placeholder="아이디를 입력해주세요."
-//               _onChange={() => {
-//                   set
-//               }}
-//             />                                                                                                                                                             
-//           </Grid>
-  
-//           <Grid padding="16px 0px">
-//             <Input
-//               label="패스워드"
-//               placeholder="패스워드 입력해주세요."
-//               _onChange={() => {
-//                 console.log("패스워드 입력완료");
-//               }}
-//             />
-//           </Grid>
-  
-//           <Button
-//             text="로그인하기"
-//             _onClick={() => {
-//               console.log("로그인 했어!");
-//             }}
-//           ></Button>
-//         </Grid>
-//       </React.Fragment>
-//     );
-//   };
-  
-
-
-
-// export default Login;
