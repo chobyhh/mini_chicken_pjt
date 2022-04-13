@@ -1,78 +1,107 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import api from "../../api/api";
-// import { deleteCookie, getCookie, setCookie } from "../../shared/Cookie";
+import { setToken } from "../../shared/token";
+import { deleteCookie, setCookie } from "../../shared/Cookie";
 
 // action
 const LOGIN = "LOGIN";
 const LOG_OUT = "LOG_OUT";
+const GET_USER = "GET_USER";
 
-// initialState
-const initialState = {
-  // user_info: "",
-  user: null,
-  is_login: false,
-};
 
 // action creator
 const login = createAction(LOGIN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
+const getUser = createAction(GET_USER, () => ({  }));
+
+
+// initialState
+const initialState = {
+  user: null,
+  is_login: false,
+};
 
 //------------------middleware------------------------------
 
-const loginDB = (nickname, password) => {
-  return async function (dispatch, getState, { history }) {
-    const data = {
-      nickname: nickname,
-      password: password,
-    };
-    dispatch(login(data.nickname));
-    await api
-      .post("/users/auth", data)
-      .then((response) => {
-        console.log(response);
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("name", response.data.nickname);
-          dispatch(login(response.data.name));
-          history.push("/");
-          window.location.replace("/");
-
-          console.log("로그인이 되었어요");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        window.alert("아이디와 비밀번호가 일치하지 않습니다.");
-      });
-  };
-};
-
-//회원가입
-const signUp = (nickname, password, confirmPassword) => {
-  return function (dispatch, getState, { history }) {
+//----------로그인 확인--------------
+const loginCheckDB = () => {
+  const token = localStorage.getItem("token");
+  return function (dispatch, getState, {history}) {
     api
-      .post("/users", {
-        nickname: nickname,
-        password: password,
-        confirmPassword: confirmPassword,
-      })
-      .then((res) => {
-        console.log(res);
-        window.alert("회원가입이 완료되었습니다.");
-        history.replace("/login");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-};
+    .post("/users/me", {}, {
+      headers: { 
+        "content-type": "applicaton/json;charset=UTF-8", 
+        "accept": "application/json", 
+        "Authorization": `${token}`, 
+      },
+    })
+    .then((res) => {
+      dispatch(login(
+        {
+          nickname: res.data.nickname
+        })
+      );
+    })
+    .catch((err) => {
+      console.log("로그인 확인 실패", err)
+    })
+  }
+}
 
-//reducer
+//-------------로그인-------------------
+const loginDB = (nickname, password) => {
+  return function (dispatch, getState, {history}) {
+     api 
+     .post('/users/auth', { 
+       nickname: nickname, 
+       password: password,
+       }) 
+     .then((res) => { 
+       const token_res = res.headers.authorization; 
+      setToken(token_res); 
+
+      return token_res }) 
+      .then((token_res) => { 
+        api 
+        .post("/users/me", 
+        {headers: { 
+          "Authorization": `${token_res}` 
+        }}) 
+        .then((res) => { dispatch(login(
+           { 
+             nickname: res.data.nickname
+           }) ); }) } ) 
+        .catch((error) => { 
+          alert(error.response.data.errorMessage) }) }; };
+
+          
+//------------회원가입-------------------
+const signUpDB = (nickname, password, confirmPassword) => {
+  return function (dispatch, getState, {history}){
+    api
+    .post('/users',{
+      "nickname": nickname,
+      "password": password,
+      "confirmPassword": confirmPassword,
+    })
+    .then((res) => {
+      window.alert("회원가입이 완료되었습니다!");
+      history.replace('/login');
+    })
+    .catch((err) => {
+      window.alert(err.response.data.errorMessage);
+    })
+  }
+}
+
+
+//-----------------------reducer------------------------
 export default handleActions(
   {
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
+        setCookie("is_login", "success");
         draft.user = action.payload.user;
         draft.is_login = true;
         // console.log("action.payload.user",action.payload.user)
@@ -81,9 +110,16 @@ export default handleActions(
       produce(state, (draft) => {
         localStorage.removeItem("nickname");
         localStorage.removeItem("token");
-        window.location.replace("/");
+        deleteCookie("is_login");
+        draft.userInfo = {
+          username: "",
+          nickname: "",
+        };
+        draft.is_login = false;
+        // window.location.replace("/");
         // console.log("로그아웃합니다")
       }),
+    [GET_USER]: (state, action) => produce(state, (draft) => {}),
   },
   initialState
 );
@@ -92,12 +128,109 @@ export default handleActions(
 const actionCreators = {
   login,
   loginDB,
-  // getUser,
-  signUp,
+  getUser,
+  signUpDB,
   logOut,
 };
 
 export { actionCreators };
+
+
+
+// const loginDB = (nickname, password) => {
+//   return function (dispatch, getState, { history }) {
+//     api
+//     .post('/users/auth',{
+//       nickname: nickname,
+//       password: password,
+//     })
+//     .then((res) => {
+//       const token_res = res.headers.authorization;
+//       setToken(token_res);
+      
+//       return token_res
+//     })
+//     .then((token_res) =>{
+//       api({ 
+//         method: "post", 
+//         url: "/users/me", 
+//         headers: { 
+//           "Authorization": `${token_res}`, 
+//         }, 
+//       })
+//       .then((res) => {
+//         dispatch(login(
+//           {
+//             nickname: res.data.nickname          
+//           })
+//         );
+//       })
+//       }
+//     )
+//     .catch(error) {
+//       alert(error.response.data.errorMessage)
+//     };
+//   };
+// };
+
+
+
+// const loginDB = (nickname, password) => {
+//   return async function (dispatch, getState, { history }) {
+//     const data = {
+//       nickname: nickname,
+//       password: password,
+//     };
+//     dispatch(login(data.nickname));
+//     await api
+//       .post("/users/auth", data)
+//       .then((response) => {
+//         console.log(response);
+//         if (response.data.token) {
+//           localStorage.setItem("token", response.data.token);
+//           localStorage.setItem("name", response.data.nickname);
+//           dispatch(login(response.data.name));
+//           history.push("/");
+//         //   window.location.replace("/");
+
+//           console.log("로그인이 되었어요");
+//         }
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         alert(error.data);
+//       });
+//   };
+// };
+
+
+
+
+
+//회원가입
+// const signUp = (nickname, password, confirmPassword) => {
+//   return function (dispatch, getState, { history }) {
+//     api
+//       .post("/users", {
+//         nickname: nickname,
+//         password: password,
+//         confirmPassword: confirmPassword,
+//       })
+//       .then((res) => {
+//         console.log(res);
+//         window.alert("회원가입이 완료되었습니다.");
+//         // history.replace("/login");
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// };
+
+
+
+
+
 
 //아이디 중복확인 (아직수정필요)
 // const checkId = (nickname) => {
