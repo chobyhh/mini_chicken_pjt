@@ -5,9 +5,14 @@ import api from "../../api/api";
 
 const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
+const EDIT_COMMENT = "EDIT_COMMENT";
+const DELETE_COMMENT = "DELETE_COMMENT";
 
 const getComment = createAction(GET_COMMENT, (comment_list) => ({ comment_list }));
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
+const editComment = createAction(EDIT_COMMENT, (comment_id, comment) => ({comment_id, comment}));
+
+const deleteComment = createAction(DELETE_COMMENT, (comment_idx) => ({ comment_idx }));
 
 const initialState = {
   list: [],
@@ -32,46 +37,72 @@ const getCommentDB = (post_id) => {
 const addCommentDB = (post_id, comment, chickenMenu) => {
   const token = localStorage.getItem('token');
   console.log("토큰",token)
-  return function(dispatch, getState, {history}) {
-    // const user = getState().user.user;
-    // console.log("dbwj",user)
-    
-    // const formData = new FormData();
-    // formData.append('chickenMenu', comment.menu)
-    // formData.append('comment', comment.comm)
-
-    // const config = {
-    //   headers: {
-    //     authorization: `Bearer ${token}`
-    //   }
-    // }
+  return async function(dispatch, getState, {history}) {
+    const user = getState().user.user;
     const body = {
       chickenMenu : chickenMenu,
       comment : comment
     }
     console.log("치킨",body)
-    // console.log("치킨",body)
     
-    // console.log("formdata",formData)
-    // console.log("config",config)
-    console.log(post_id)
-    api
+    await api
     .post(`/restaurants/${post_id}/comments`, 
-      body,
-      
+      body,      
     )
-    
    .then(       
         dispatch(addComment({
           chickenMenu,
           comment,
+          nickname: user.nickname,
       // nickname : res.data.nickname
         } 
       ))
     )
     .catch((err) => {
-      alert(2)
+      alert("메뉴를 선택해주세요")
       console.log("댓글추가실패", err);
+    })
+  }
+}
+
+const editCommentDB = (post_id, comment, chickenMenu) => {
+  return async function (dispatch, getState, {history}) {
+    const user = getState().user.user;
+
+    const token = localStorage.getItem('token');
+    
+    await api
+    .post(`/restaurants/${post_id}/comments`, {
+      // nickname : user.nickname,    
+      comment: comment,
+      // chickenMenu : chickenMenu,
+    }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    })
+    .then((res) => {
+      dispatch(editComment(post_id, comment));
+    })
+  }
+}
+
+const deleteCommentDB = (post_id, comment_id) => {
+  const token = localStorage.getItem('token');
+  return async function (dispatch, getState, {history}){
+    await api.delete(`/restaurants/${post_id}/comments/:commntid`,{
+    })
+    .then((res) => {
+      const _comment = getState().comment.list.commentDb;
+
+      const comment_idx = _comment.findIndex((c) => {
+        return parseInt(c.commentIdx) === parseInt(comment_id);
+      })
+      dispatch(deleteComment(comment_idx))
+
+    })
+    .catch((err) => {
+      console.log("삭제실패");
     })
   }
 }
@@ -89,14 +120,22 @@ export default handleActions(
 
       }),
       [ADD_COMMENT]: (state, action) => produce(state, (draft) => {
-        console.log("해봅시다",state, action)
-        console.log("결과",action.payload.comment)
-        console.log("결과값",draft.list)
-        console.log("nick",draft.nickname)
-        
-        // draft.list[action.payload].unshift(action.payload);
         draft.list.commentDb.unshift(action.payload.comment);
         console.log("결과값222",draft.list.commentDb)
+      }),
+      [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {
+        let idx = draft.list.findIndex((c) => {
+          return  parseInt(c.commentIdx) === parseInt(action.payload.comment_id)
+        })
+    
+        draft.list[idx] = {...draft.list[idx], comment: action.payload.comment};
+      }),
+      [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
+        const new_comment_list = draft.list.filter((c, i) => {
+          return parseInt(action.payload.comment_idx) !== i;
+        })
+
+        draft.list = new_comment_list;
       }),
 
   },
@@ -107,9 +146,12 @@ export default handleActions(
 const actionCreators = {
   getComment,
   addComment,
+  editComment,
+  deleteComment,
   getCommentDB,
   addCommentDB,
-
+  deleteCommentDB,
+  editCommentDB
 };
 
 export { actionCreators };

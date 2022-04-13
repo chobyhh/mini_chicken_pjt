@@ -8,11 +8,12 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 const CommentItem = (props) => {
   const dispatch = useDispatch();
 
-  // const user = useSelector(state => state.user.userInfo);
-
-  const [user, setUser] = useState(["test1"])
-  const comment_list = useSelector(state => state.comment.list);
-
+  const user = useSelector(state => state.user.user);
+  console.log("유저",user.nickname)
+  // const [user, setUser] = useState(["test1"])
+  const comment_list = useSelector(state => state.comment.list.commentDb);
+  const comment_list2 = comment_list;
+  console.log("댓글리스트",comment_list2[0].commentIdx)
   const [is_first, setIsFirst] = useState(true);
   const [is_edit, setIsEdit] = useState(false);
   const [editValue, setEditValue] = useState("");
@@ -33,7 +34,7 @@ const CommentItem = (props) => {
     //   return;
     // }
 
-    dispatch(commentActions.deleteCommentDB(props.commentId));
+    dispatch(commentActions.deleteCommentDB(props.commentIdx));
   }
 
   const editChange = () => {

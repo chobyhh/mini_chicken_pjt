@@ -18,7 +18,7 @@ const getUser = createAction(GET_USER, () => ({  }));
 
 // initialState
 const initialState = {
-  user: null,
+  user: [],
   is_login: false,
 };
 
@@ -66,7 +66,7 @@ const loginDB = (nickname, password) => {
       return token_res }) 
       .then((token_res) => { //토큰저장완료
         api
-        .post("/users/me", {}, {
+        .get("/users/me", {}, {
       headers: { 
         contentType: "applicaton/json;charset=UTF-8", 
         accept: "application/json", 
@@ -77,11 +77,11 @@ const loginDB = (nickname, password) => {
           console.log(res) 
           dispatch(login(
            { 
-             nickname: res.data.nickname //위치불확실 콘솔찍어서 확인
+             nickname: res.data.user.nickname //위치불확실 콘솔찍어서 확인
            }) 
            );
            })
-                 history.replace('/')
+           history.replace('/')
            } ) 
         .catch((error) => { 
           alert(error.response.data.errorMessage) }) }; };
@@ -113,19 +113,18 @@ export default handleActions(
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
         // setCookie("is_login", "success");
-        console.log(draft.user) //지금현재 유저의 상태
-        console.log(action.payload)
-        console.log(action.payload.user)
         draft.user = action.payload.user;
         draft.is_login = true;
-        // console.log("action.payload.user",action.payload.user)
+
+        console.log("action.payload.user",action.payload.user)
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         localStorage.removeItem("nickname");
         localStorage.removeItem("token");
         // deleteCookie("is_login");
-        draft.user = null
+        draft.user = null;
+        
         draft.is_login = false;
         // window.location.replace("/");
         // console.log("로그아웃합니다")
@@ -138,10 +137,11 @@ export default handleActions(
 //action creator export
 const actionCreators = {
   login,
-  loginDB, 
+  loginDB,
   getUser,
   signUpDB,
   logOut,
+  loginCheckDB
 };
 
 export { actionCreators };
