@@ -33,7 +33,7 @@ const loginCheckDB = () => {
       headers: { 
         "content-type": "applicaton/json;charset=UTF-8", 
         "accept": "application/json", 
-        "Authorization": `${token}`, 
+        "Authorization": `Bearer ${token}`, 
       },
     })
     .then((res) => {
@@ -58,24 +58,35 @@ const loginDB = (nickname, password) => {
        password: password,
        }) 
      .then((res) => { 
-       const token_res = res.headers.authorization; 
+       console.log(res)
+       const token_res = res.data.token; 
+       console.log(token_res);
       setToken(token_res); 
 
       return token_res }) 
-      .then((token_res) => { 
-        api 
-        .post("/users/me", 
-        {headers: { 
-          "Authorization": `${token_res}` 
-        }}) 
-        .then((res) => { dispatch(login(
+      .then((token_res) => { //토큰저장완료
+        api
+        .get("/users/me", {}, {
+      headers: { 
+        "content-type": "applicaton/json;charset=UTF-8", 
+        "accept": "application/json", 
+        "Authorization": `Bearer ${token_res}`, 
+      },
+    })
+        .then((res) => {
+          console.log(res) 
+          dispatch(login(
            { 
-             nickname: res.data.nickname
-           }) ); }) } ) 
+             nickname: res.data.nickname //위치불확실 콘솔찍어서 확인
+           }) 
+           );
+           })
+           history.replace('/')
+           } ) 
         .catch((error) => { 
           alert(error.response.data.errorMessage) }) }; };
 
-          
+
 //------------회원가입-------------------
 const signUpDB = (nickname, password, confirmPassword) => {
   return function (dispatch, getState, {history}){
