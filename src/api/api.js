@@ -21,7 +21,7 @@ export const apis = {
   // 회원가입 요청
   signUp: (userInfo) => api.post("users/", userInfo),
   // 로그인
-  login: (data) => api.post("user/auth",  { nickname: data.nickname, password: data.password, }),
+  login: (data) => api.post("users/auth",  { nickname: data.nickname, password: data.password, }),
   // 로그인 체크
   loginCheck: () => api.get("/api/users/:userUid/validation"),
 

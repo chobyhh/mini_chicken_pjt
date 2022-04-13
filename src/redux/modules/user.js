@@ -24,6 +24,7 @@ const initialState = {
 
 //------------------middleware------------------------------
 
+//----------로그인 확인--------------
 const loginCheckDB = () => {
   const token = localStorage.getItem("token");
   return function (dispatch, getState, {history}) {
@@ -48,6 +49,7 @@ const loginCheckDB = () => {
   }
 }
 
+//-------------로그인-------------------
 const loginDB = (nickname, password) => {
   return function (dispatch, getState, {history}) {
      api 
@@ -73,45 +75,8 @@ const loginDB = (nickname, password) => {
         .catch((error) => { 
           alert(error.response.data.errorMessage) }) }; };
 
-
-// const loginDB = (nickname, password) => {
-//   return function (dispatch, getState, { history }) {
-//     api
-//     .post('/users/auth',{
-//       nickname: nickname,
-//       password: password,
-//     })
-//     .then((res) => {
-//       const token_res = res.headers.authorization;
-//       setToken(token_res);
-      
-//       return token_res
-//     })
-//     .then((token_res) =>{
-//       api({ 
-//         method: "post", 
-//         url: "/users/me", 
-//         headers: { 
-//           "Authorization": `${token_res}`, 
-//         }, 
-//       })
-//       .then((res) => {
-//         dispatch(login(
-//           {
-//             nickname: res.data.nickname          
-//           })
-//         );
-//       })
-//       }
-//     )
-//     .catch(error) {
-//       alert(error.response.data.errorMessage)
-//     };
-//   };
-// };
-
-
-
+          
+//------------회원가입-------------------
 const signUpDB = (nickname, password, confirmPassword) => {
   return function (dispatch, getState, {history}){
     api
@@ -122,7 +87,7 @@ const signUpDB = (nickname, password, confirmPassword) => {
     })
     .then((res) => {
       window.alert("회원가입이 완료되었습니다!");
-      // history.replace('/');
+      history.replace('/login');
     })
     .catch((err) => {
       window.alert(err.response.data.errorMessage);
@@ -169,6 +134,45 @@ const actionCreators = {
 };
 
 export { actionCreators };
+
+
+
+// const loginDB = (nickname, password) => {
+//   return function (dispatch, getState, { history }) {
+//     api
+//     .post('/users/auth',{
+//       nickname: nickname,
+//       password: password,
+//     })
+//     .then((res) => {
+//       const token_res = res.headers.authorization;
+//       setToken(token_res);
+      
+//       return token_res
+//     })
+//     .then((token_res) =>{
+//       api({ 
+//         method: "post", 
+//         url: "/users/me", 
+//         headers: { 
+//           "Authorization": `${token_res}`, 
+//         }, 
+//       })
+//       .then((res) => {
+//         dispatch(login(
+//           {
+//             nickname: res.data.nickname          
+//           })
+//         );
+//       })
+//       }
+//     )
+//     .catch(error) {
+//       alert(error.response.data.errorMessage)
+//     };
+//   };
+// };
+
 
 
 // const loginDB = (nickname, password) => {

@@ -15,17 +15,6 @@ const Login = (props) => {
   const [password, setPwd] = useState("");
 
   const login = () => {
-//     if(nickname === "" || password === "") {
-//       window.alert("모두 입력해주세요!");
-      
-    //   return;
-    // }
-
-
-    // if(!idCheck(id)) {
-    //   window.alert("이메일 형식이 맞지 않습니다!");
-    //   return;
-    // }
 
     dispatch(userActions.loginDB(nickname, password));
   }
