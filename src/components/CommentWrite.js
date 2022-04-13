@@ -24,6 +24,9 @@ const CommentWrite = (props) => {
 
   const comment_list = useSelector(state => state.comment.list);
   const brand_list = useSelector(state => state.post.list.restaurants);
+  const user = useSelector(state => state.user.user)
+  console.log("user",user.nickname)
+
 
   const onChange = (e) => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -45,7 +48,8 @@ const CommentWrite = (props) => {
       window.alert("댓글을 입력해주세요!")
       return;
     }
-    dispatch(commentActions.addCommentDB(brand_list ? brand_list[list_id].restaurantTitle : "", comments.comm, comments.menu));
+    dispatch(commentActions.addCommentDB(
+      brand_list ? brand_list[list_id].restaurantTitle : "", comments.comm, comments.menu, user.nickname));
     setComments('');
     console.log("확인",comments)
   }
@@ -94,6 +98,7 @@ const CommentWrite = (props) => {
 const WriteWrap = styled.div`
   margin: 0 auto;
   margin-bottom: 12px;
+  margin-top: 10%;
   width: 100%;
   max-width: 980px;
   display: flex;
@@ -103,7 +108,7 @@ const WriteWrap = styled.div`
 
 const CommentSelect = styled.select`
   padding: 0px 10px ;
-  width: 25%;
+  width: 45%;
   height: 42px;
   border: 1px solid #c9c9c9;
   border-radius: 20px;

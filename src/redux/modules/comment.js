@@ -19,6 +19,8 @@ const initialState = {
 };
 
 const getCommentDB = (post_id) => {
+    console.log("포스트",post_id)
+
     // const token = localStorage.getItem('token');
     return async function (dispatch, getState, { history }) {
       await api.get(`/restaurants/${post_id}`).then(function(response){
@@ -34,26 +36,31 @@ const getCommentDB = (post_id) => {
 
 
 
-const addCommentDB = (post_id, comment, chickenMenu) => {
+const addCommentDB = (post_id, comment, chickenMenu, nickname) => {
   const token = localStorage.getItem('token');
   console.log("토큰",token)
   return async function(dispatch, getState, {history}) {
     const user = getState().user.user;
     const body = {
       chickenMenu : chickenMenu,
-      comment : comment
+      comment : comment,
+      nickname : nickname
     }
     console.log("치킨",body)
     
     await api
     .post(`/restaurants/${post_id}/comments`, 
-      body,      
+      body,{
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        }
+      }      
     )
    .then(       
         dispatch(addComment({
           chickenMenu,
           comment,
-          nickname: user.nickname,
+          nickname,
       // nickname : res.data.nickname
         } 
       ))
@@ -65,42 +72,69 @@ const addCommentDB = (post_id, comment, chickenMenu) => {
   }
 }
 
-const editCommentDB = (post_id, comment, chickenMenu) => {
+const editCommentDB = (post_id, comment_id, comment) => {
+  console.log("수정",comment)
+  console.log("수정아이디",comment_id)
   return async function (dispatch, getState, {history}) {
     const user = getState().user.user;
 
     const token = localStorage.getItem('token');
-    
+    const body = {
+      
+      comment,
+     
+    }
     await api
-    .post(`/restaurants/${post_id}/comments`, {
+    .put(`/restaurants/${post_id}/comments/${comment_id}`, 
       // nickname : user.nickname,    
-      comment: comment,
+      body,
       // chickenMenu : chickenMenu,
-    }, {
+    {
       headers: {
-        Authorization: `${token}`,
+        "Authorization": `Bearer ${token}`,
       },
     })
     .then((res) => {
-      dispatch(editComment(post_id, comment));
+      dispatch(editComment(comment_id, comment));
+    })
+    .catch((err) => {
+      alert("2")
+      console.log("댓글수정실패", err);
     })
   }
 }
 
 const deleteCommentDB = (post_id, comment_id) => {
+  
   const token = localStorage.getItem('token');
+  console.log("코멘트아이디",comment_id)
   return async function (dispatch, getState, {history}){
-    await api.delete(`/restaurants/${post_id}/comments/:commntid`,{
+    // const _comment = getState().comment.list.commentDb;
+    // console.log("_comment",_comment)
+    await api.delete(`/restaurants/${post_id}/comments/${comment_id}`,{
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      }
     })
-    .then((res) => {
+    .then((response) => {
       const _comment = getState().comment.list.commentDb;
 
       const comment_idx = _comment.findIndex((c) => {
         return parseInt(c.commentIdx) === parseInt(comment_id);
       })
-      dispatch(deleteComment(comment_idx))
+      dispatch(deleteComment(comment_idx)) 
+    }
+      
+    )
+    // .then((response) => {
+    //   const _comment = getState().comment.list.commentDb;
 
-    })
+    //   const comment_idx = _comment.findIndex((c) => {
+    //     return parseInt(c.commentIdx) === parseInt(comment_id);
+    //   })
+    //   dispatch(deleteComment(comment_idx))
+
+    // })
     .catch((err) => {
       console.log("삭제실패");
     })
@@ -113,29 +147,34 @@ export default handleActions(
     [GET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
         // draft.list = [];
-        // console.log(state);
+        console.log("get_comment 리듀서 실행");
         // console.log("액션",action);
         draft.list = action.payload.comment_list;
         // console.log("드래프트",draft.list);
 
       }),
       [ADD_COMMENT]: (state, action) => produce(state, (draft) => {
-        draft.list.commentDb.unshift(action.payload.comment);
-        console.log("결과값222",draft.list.commentDb)
+        console.log("add_comment 실행")       
+        draft.list.commentDb.push(action.payload.comment);
+        console.log("add_comment 드래프트",draft.list.commentDb)
+        // draft.list.commentDb.unshift(action.payload.comment, action.payload.nickname);
+        // console.log("결과값222",draft.list.commentDb)
       }),
       [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {
-        let idx = draft.list.findIndex((c) => {
+        let idx = draft.list.commentDb.findIndex((c) => {
           return  parseInt(c.commentIdx) === parseInt(action.payload.comment_id)
         })
     
-        draft.list[idx] = {...draft.list[idx], comment: action.payload.comment};
+        draft.list.commentDb[idx] = {...draft.list.commentDb[idx], comment: action.payload.comment};
       }),
       [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
-        const new_comment_list = draft.list.filter((c, i) => {
+        console.log("state",draft)
+        console.log("action",action)
+        const new_comment_list = draft.list.commentDb.filter((c, i) => {
           return parseInt(action.payload.comment_idx) !== i;
         })
 
-        draft.list = new_comment_list;
+        draft.list.commentDb = new_comment_list;
       }),
 
   },
