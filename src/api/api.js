@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USER_TOKEN = localStorage.getItem("X-AUTH-TOKEN");
+const TOKEN = localStorage.getItem("token");
 
 const api = axios.create({
   // 기본 서버주소
@@ -8,7 +8,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = `Bearer ${USER_TOKEN}`;
+    config.headers.Authorization = `Bearer ${TOKEN}`;
     return config;
   },
   function (error) {
@@ -24,7 +24,7 @@ export const apis = {
   login: (data) => api.post("users/auth",  { nickname: data.nickname, password: data.password, }),
   // 로그인 체크
   loginCheck: () => api.get("/api/users/:userUid/validation"),
-
+}
  /*  // 게시물 불러오기
   getPost: () => instance.get("/", {}),
   // 게시물 작성하기
@@ -53,6 +53,7 @@ export const apis = {
     instance.delete(`/api/posts/${postUid}/${userUid}`),
   // 마이페이지 불러오기
   getMyPage: (id) => instance.get(`/users/${id}`), */
-};
+
+
 
 export default api;
