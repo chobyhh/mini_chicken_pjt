@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const TOKEN = localStorage.getItem("token");
 
 const api = axios.create({
@@ -17,14 +18,7 @@ api.interceptors.request.use(
   }
 );
 
-export const apis = {
-  // 회원가입 요청
-  signUp: (userInfo) => api.post("users/", userInfo),
-  // 로그인
-  login: (data) => api.post("users/auth",  { nickname: data.nickname, password: data.password, }),
-  // 로그인 체크
-  loginCheck: () => api.get("/api/users/:userUid/validation"),
-}
+
  /*  // 게시물 불러오기
   getPost: () => instance.get("/", {}),
   // 게시물 작성하기

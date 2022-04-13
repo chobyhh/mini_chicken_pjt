@@ -66,7 +66,7 @@ const loginDB = (nickname, password) => {
       return token_res }) 
       .then((token_res) => { //토큰저장완료
         api
-        .get("/users/me", {}, {
+        .post("/users/me", {}, {
       headers: { 
         contentType: "applicaton/json;charset=UTF-8", 
         accept: "application/json", 
@@ -81,7 +81,7 @@ const loginDB = (nickname, password) => {
            }) 
            );
            })
-           history.replace('/')
+                 history.replace('/')
            } ) 
         .catch((error) => { 
           alert(error.response.data.errorMessage) }) }; };
@@ -112,7 +112,10 @@ export default handleActions(
   {
     [LOGIN]: (state, action) =>
       produce(state, (draft) => {
-        setCookie("is_login", "success");
+        // setCookie("is_login", "success");
+        console.log(draft.user) //지금현재 유저의 상태
+        console.log(action.payload)
+        console.log(action.payload.user)
         draft.user = action.payload.user;
         draft.is_login = true;
         // console.log("action.payload.user",action.payload.user)
@@ -121,11 +124,8 @@ export default handleActions(
       produce(state, (draft) => {
         localStorage.removeItem("nickname");
         localStorage.removeItem("token");
-        deleteCookie("is_login");
-        draft.userInfo = {
-          username: "",
-          nickname: "",
-        };
+        // deleteCookie("is_login");
+        draft.user = null
         draft.is_login = false;
         // window.location.replace("/");
         // console.log("로그아웃합니다")
@@ -138,7 +138,7 @@ export default handleActions(
 //action creator export
 const actionCreators = {
   login,
-  loginDB,
+  loginDB, 
   getUser,
   signUpDB,
   logOut,
