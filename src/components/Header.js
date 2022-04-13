@@ -9,9 +9,10 @@ import { actionCreators as userActions } from '../redux/modules/user';
 const Header = (props) => {
     const dispatch = useDispatch();
     // const [is_login, setLogin] = useState(true);
-    const is_login = useSelector(state => state.user.is_login);
-    console.log("가져오냐",is_login)
+    // const is_login = useSelector(state => state.user.is_login);
+    // console.log("가져오냐",is_login)
     const user = useSelector(state => state.user.user)
+    const localStoragetokenCheck = localStorage.getItem('token');
  
     return (
         <HeaderContainer>
@@ -27,7 +28,7 @@ const Header = (props) => {
             </Text>
           </div>
 
-          {!is_login ? 
+          {!localStoragetokenCheck ? 
             <ButtonContainer>
               <Button 
                 margin="0px 10px 0px 0px"

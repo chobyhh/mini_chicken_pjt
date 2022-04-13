@@ -7,16 +7,16 @@ const api = axios.create({
   // 기본 서버주소
   baseURL: "http://pooreum.shop", });
 
-api.interceptors.request.use(
-  function (config) {
-    config.headers.Authorization = `Bearer ${TOKEN}`;
-    return config;
-  },
-  function (error) {
-    console.log("err");
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.request.use(
+//   function (config) {
+//     config.headers.Authorization = `Bearer ${TOKEN}`;
+//     return config;
+//   },
+//   function (error) {
+//     console.log("err");
+//     return Promise.reject(error);
+//   }
+// );
 
 
  /*  // 게시물 불러오기

@@ -49,12 +49,12 @@ const ElButton = styled.button`
   ${(props) => (props.bg? `background-color: ${props.bg};` : 'background-color: #fff;')};
   cursor: pointer;
   padding: ${(props) => props.padding};
-//   box-sizing: border-box;
-//   border: 1px solid #c9c9c9;
+  // box-sizing: border-box;
+  // border: 1px solid #c9c9c9;
   ${(props) => (props.margin? `margin: ${props.margin};` : '')};
   cursor: pointer;
-//   border-radius: 20px;
-//   box-shadow: 2px 2px 5px #c9c9c9;
+  // border-radius: 15px;
+  // box-shadow: 2px 2px 5px #c9c9c9;
     border: none;
 `;
 
@@ -68,7 +68,7 @@ const FloatButton = styled.button`
   font-weight: 800;
   color: #fff;
   background-color: #212121;
-  border: none;
+  // border: none;
   border-radius: 50px;
   text-align: center;
   vertical-align: middle;
