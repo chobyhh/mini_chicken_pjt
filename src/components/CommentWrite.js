@@ -5,63 +5,59 @@ import styled from 'styled-components';
 import { Input, Button, WriteInput } from '../elements';
 import { actionCreators as commentActions } from '../redux/modules/comment';
 
+import { useParams } from 'react-router-dom';
 
 
 const CommentWrite = (props) => {
   const dispatch = useDispatch();
 
+  const params = useParams();
+  const list_id = params.id
 
-  const [comment, setComment] = useState([{
-    menu:"", 
-    comm:""
-  }]);
-  const {menu, comm} = comment;
+  const [comments, setComments] = useState({menu:'', comm:''});
+  // const [selects, setSelects] = useState("");
+  const {menu, comm} = comments;
 
   // const [selected, setSelected] = useState();
   const [is_login, setLogin] = useState(true);
   // const is_login = useSelector(state => state.user.isLogin);
 
   const comment_list = useSelector(state => state.comment.list);
-  
+  const brand_list = useSelector(state => state.post.list.restaurants);
+
   const onChange = (e) => {
-    setComment({})
+    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+    setComments({
+    ...comments, // 기존의 input 객체를 복사한 뒤
+    [name]: value // name 키를 가진 값을 value 로 설정
+    });
+  
+
   }
 
-  // const selectHandler = (e) => {
-  //   setComment(e.target.value)
-  //   console.log("셀렉트",e.current.value)
-  //   alert(e.target.value)
-  // }
-  
-  // const handleSelect = (e) => {
-  //   setComment(e.target.value);
-  //   console.log("타겟",e.current.value)
-  // };
-  // const writeComment = () => {
-  //   if(!is_login) {
-  //     window.alert("로그인 후 이용 가능합니다!")
-  //     return
-  //   }
+  const writeComment = () => {
+    // if(!is_login) {
+    //   window.alert("로그인 후 이용 가능합니다!")
+    //   return
+    // }
     
-  //   if(!comment){
-  //     window.alert("댓글을 입력해주세요!")
-  //     return;
-  //   }
-  //   dispatch(commentActions.addCommentDB(props.post_id, comment));
-  // }
-
+    // if(!comments){
+    //   window.alert("댓글을 입력해주세요!")
+    //   return;
+    // }
+    dispatch(commentActions.addCommentDB(brand_list ? brand_list[list_id].restaurantTitle : "", comments.comm, comments.menu));
+    setComments('');
+    console.log("확인",comments)
+  }
+  
   return (
     <>
       <WriteWrap>
-      <CommentSelect>
+      <CommentSelect onChange={onChange} name="menu" value={menu || ''} defaultValue={props.defaultValue === menu} >
             {
                 comment_list.menus?.map((e, i) => (
                     <option
-                      key={i}
-
-                      value={menu}
-                      defaultValue={props.defaultValue === menu}
-                      onChange={onChange}
+                    key={i}
                     >
                       {e.menuTitle}
                     </option> 
@@ -69,18 +65,21 @@ const CommentWrite = (props) => {
             }
         </CommentSelect>
         <CommentInput 
-           placeholder="댓글을 입력해주세요!" 
-           value={comm}
-           onChange={onChange}  
+          name="comm"
+          placeholder="댓글을 입력해주세요!" 
+          value={comm || ''}
+          onChange={onChange}  
      
         />
         <Button 
           width="80px"
-          _onClick={() => {
+          _onClick={
             // writeComment();
-            console.log(comment.comm)
+      
+            writeComment
+            // console.log("선택값",selects)
             // setComment("");
-          }}
+          }
         >
           작성
         </Button>
