@@ -8,7 +8,7 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 const CommentItem = (props) => {
   const dispatch = useDispatch();
 
-  //const user = useSelector(state => state.user.userInfo);
+  // const user = useSelector(state => state.user.userInfo);
 
   const [user, setUser] = useState(["test1"])
   const comment_list = useSelector(state => state.comment.list);
@@ -28,10 +28,10 @@ const CommentItem = (props) => {
   }
 
   const delComment = () => {
-    if(user.nickname !== props.nickname) {
-      window.alert("본인이 작성한 댓글이 아닙니다.")
-      return;
-    }
+    // if(user.nickname !== props.nickname) {
+    //   window.alert("본인이 작성한 댓글이 아닙니다.")
+    //   return;
+    // }
 
     dispatch(commentActions.deleteCommentDB(props.commentId));
   }

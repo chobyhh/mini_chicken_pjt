@@ -36,15 +36,15 @@ const CommentWrite = (props) => {
   }
 
   const writeComment = () => {
-    // if(!is_login) {
-    //   window.alert("로그인 후 이용 가능합니다!")
-    //   return
-    // }
+    if(!is_login) {
+      window.alert("로그인 후 이용 가능합니다!")
+      return
+    }
     
-    // if(!comments){
-    //   window.alert("댓글을 입력해주세요!")
-    //   return;
-    // }
+    if(!comments){
+      window.alert("댓글을 입력해주세요!")
+      return;
+    }
     dispatch(commentActions.addCommentDB(brand_list ? brand_list[list_id].restaurantTitle : "", comments.comm, comments.menu));
     setComments('');
     console.log("확인",comments)
