@@ -12,23 +12,7 @@ const getComment = createAction(GET_COMMENT, (comment_list) => ({ comment_list }
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
 
 const initialState = {
-  list: [
-    // {
-    //   restaurantTitle: "bbq",
-    //   chickenMenu: "후라이드",
-    //   nickname: "asdf",
-    //   comment: "test1",
-    //   __v: 0
-    //   },
-    //   {
-    //   restaurantTitle: "bbq",
-    //   chickenMenu: "양념",
-    //   nickname: "bbb",
-    //   comment: "test2",
-    //   __v: 0
-    //   }
-
-  ],
+  list: [],
 };
 
 const getCommentDB = (post_id) => {
@@ -47,6 +31,67 @@ const getCommentDB = (post_id) => {
 
 
 
+const addCommentDB = (post_id, comment, chickenMenu) => {
+  const token = localStorage.getItem('token');
+  console.log("토큰",token)
+  return function(dispatch, getState, {history}) {
+    // const user = getState().user.user;
+    // console.log("dbwj",user)
+    
+    const formData = new FormData();
+    formData.append('chickenMenu', comment.menu)
+    formData.append('comment', comment.comm)
+    
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    console.log("formdata",formData)
+    console.log("config",config)
+    console.log(post_id)
+    api
+    .post(`/restaurants/${post_id}/comments`, 
+    
+
+      formData
+
+      // data:{
+      //   chickenMenu: comment.menu,
+      // // nickname : user.nickname,    
+      //   comment: comment.comm
+      // },
+    , 
+      config
+    )
+    // .then((res)=>{
+    //   alert(res)
+    //   dispatch(addComment({
+    //     chickenMenu,
+    //     comment,
+        .then(
+        
+          dispatch(addComment({
+            chickenMenu,
+            comment,
+        // nickname : res.data.nickname
+        } 
+      ))
+        
+      
+    
+
+    )
+    .catch((err) => {
+      alert(2)
+      console.log("댓글추가실패", err);
+    })
+  }
+}
+
+
 
 export default handleActions(
   {
@@ -59,6 +104,16 @@ export default handleActions(
         // console.log("드래프트",draft.list);
 
       }),
+      [ADD_COMMENT]: (state, action) => produce(state, (draft) => {
+        console.log("해봅시다",state, action)
+        console.log("결과",action.payload.comment)
+        console.log("결과값",draft.list)
+        console.log("nick",draft.nickname)
+        
+        // draft.list[action.payload].unshift(action.payload);
+        draft.list.commentDb.unshift(action.payload.comment);
+        console.log("결과값222",draft.list.commentDb)
+      }),
   },
   initialState
 );
@@ -66,7 +121,9 @@ export default handleActions(
 
 const actionCreators = {
   getComment,
-  getCommentDB
+  addComment,
+  getCommentDB,
+  addCommentDB
 };
 
 export { actionCreators };
