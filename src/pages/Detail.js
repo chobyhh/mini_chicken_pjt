@@ -8,6 +8,7 @@ import Comments from '../components/Comments';
 import CommentWrite from '../components/CommentWrite';
 import { DetailImg } from '../elements';
 import { useParams } from "react-router-dom";
+import Menu from '../components/Menu';
 // import Permit from '../shared/Permit';
 
 const PostDetail = (props) => {
@@ -19,7 +20,7 @@ const PostDetail = (props) => {
 
   const post_list = useSelector((state) => state.post.list);
   const brand_list = post_list.restaurants
-
+  console.log("브랜드 네임",brand_list[list_id].restaurantTitle)
 
   React.useEffect(() => {
     dispatch(actionCreators.getPostMD());
@@ -27,10 +28,18 @@ const PostDetail = (props) => {
 
   return (
     <>
-      {
-        <DetailImg src={brand_list ? brand_list[list_id].restaurantImg : ""}
-        />
-      }
+      <div style={{display: "flex", margin:"5px", justifyContent: "space-between"}}>
+        <DetailImg src={brand_list ? brand_list[list_id].restaurantImg : ""}/>
+        <h2 style={{position:"absolute", marginLeft:"610px", marginTop:"95px"}}>
+          <span> {brand_list[list_id].restaurantTitle}치킨 </span> 
+           메뉴판
+        </h2>
+        <Menu style={{height:"100px"}} />
+
+        
+      </div>
+        
+      
       <CommentWrap>
         <CommentWrite post_id={id}/>
         <Comments post_id={id}/> 

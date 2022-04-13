@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { ConnectedRouter } from 'connected-react-router';
 import {history} from "./redux/configStore";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 // import {Grid} from "./elements";
 
 

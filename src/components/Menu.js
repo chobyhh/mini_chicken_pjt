@@ -18,16 +18,23 @@ const Menu = (props) => {
       }, [brand_list, dispatch, list_id]);
 
     return (
-        <table style={{paddingTop:"23%",height:"100px",width :"38%",justifyContent:"center" ,textAlign:"center", alignItems:"center"}}>
+        <table style={{
+            paddingTop:"15.7%",
+            height:"100px",
+            width :"40%",
+            justifyContent:"center" ,
+            textAlign:"center", 
+            alignItems:"center", 
+            paddingRight:"16px"
+            }}>
 
             {
-            comment_list.commentDb?.map((e,i)=>{
+            comment_list.menus?.map((e,i)=>{
               console.log(e)   
               return(
-                  <tr>
-                      
-                      <td style={{border:"1px solid black"}}>{e.chickenMenu} </td>
-                      <td style={{border:"1px solid black"}}>17,000원 </td>
+                  <tr style={{border:"1px solid #c9c9c9", height:"0px"}}>
+                      <td style={{border:"1px solid #c9c9c9", height:"35px", borderRadius:"20px"}}>{e.menuTitle} </td>
+                      <td style={{border:"1px solid #c9c9c9", borderRadius:"20px"}}>{e.menuPrice} </td>
                       {/* <td style={{border:"1px solid black"}}>{e.price}</td> */}
                   </tr>
               )

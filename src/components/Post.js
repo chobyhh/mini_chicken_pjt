@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Image } from '../elements'
-import Data from './data';
 import {history} from "../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators } from '../redux/modules/postt';

@@ -9,12 +9,10 @@ const LOGIN = "LOGIN";
 const LOG_OUT = "LOG_OUT";
 const GET_USER = "GET_USER";
 
-
 // action creator
 const login = createAction(LOGIN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const getUser = createAction(GET_USER, () => ({  }));
-
+const getUser = createAction(GET_USER, () => ({}));
 
 // initialState
 const initialState = {
@@ -27,85 +25,97 @@ const initialState = {
 //----------로그인 확인--------------
 const loginCheckDB = () => {
   const token = localStorage.getItem("token");
-  return function (dispatch, getState, {history}) {
+  return function (dispatch, getState, { history }) {
     api
-    .post("/users/me", {}, {
-      headers: { 
-        contentType: "applicaton/json;charset=UTF-8", 
-        accept: "application/json", 
-        authorization: `Bearer ${token}`, 
-      },
-    })
-    .then((res) => {
-      dispatch(login(
+      .post(
+        "/users/me",
+        {},
         {
-          nickname: res.data.nickname
-        })
-      );
-    })
-    .catch((err) => {
-      console.log("로그인 확인 실패", err)
-    })
-  }
-}
+          headers: {
+            "contentType": "applicaton/json;charset=UTF-8",
+            "accept": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        dispatch(
+          login({
+            nickname: res.data.nickname,
+          })
+        );
+      })
+      .catch((err) => {
+        console.log("로그인 확인 실패", err);
+      });
+  };
+};
+
 
 //-------------로그인-------------------
 const loginDB = (nickname, password) => {
-  return function (dispatch, getState, {history}) {
-     api 
-     .post('/users/auth', { 
-       nickname: nickname, 
-       password: password,
-       }) 
-     .then((res) => { 
-       console.log(res)
-       const token_res = res.data.token; 
-       console.log(token_res);
-      setToken(token_res); 
+  return function (dispatch, getState, { history }) {
+    api
+      .post("/users/auth", {
+        nickname: nickname,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+        const token_res = res.data.token;
+        console.log(token_res);
+        setToken(token_res);
 
-      return token_res }) 
-      .then((token_res) => { //토큰저장완료
+        return token_res;
+      })
+      .then((token_res) => {
+        //토큰저장완료
         api
-        .get("/users/me", {}, {
-      headers: { 
-        contentType: "applicaton/json;charset=UTF-8", 
-        accept: "application/json", 
-        authorization: `Bearer ${token_res}`, 
-      },
-    })
-        .then((res) => {
-          console.log(res) 
-          dispatch(login(
-           { 
-             nickname: res.data.user.nickname //위치불확실 콘솔찍어서 확인
-           }) 
-           );
-           })
-           history.replace('/')
-           } ) 
-        .catch((error) => { 
-          alert(error.response.data.errorMessage) }) }; };
+          .get(
+            "/users/me",
+            {
+              headers: {
+                "Authorization": `Bearer ${token_res}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            dispatch(
+              login({
+                nickname: res.data.user.nickname, //위치불확실 콘솔찍어서 확인
+              })
+            );
+            history.replace("/");
+          })
+        .catch((error) => {
+        alert(error.response.data.errorMessage);
+      });
+      })
+      
+  };
+};
+
 
 
 //------------회원가입-------------------
 const signUpDB = (nickname, password, confirmPassword) => {
-  return function (dispatch, getState, {history}){
+  return function (dispatch, getState, { history }) {
     api
-    .post('/users',{
-      "nickname": nickname,
-      "password": password,
-      "confirmPassword": confirmPassword,
-    })
-    .then((res) => {
-      window.alert("회원가입이 완료되었습니다!");
-      history.replace('/login');
-    })
-    .catch((err) => {
-      window.alert(err.response.data.errorMessage);
-    })
-  }
-}
-
+      .post("/users", {
+        nickname: nickname,
+        password: password,
+        confirmPassword: confirmPassword,
+      })
+      .then((res) => {
+        window.alert("회원가입이 완료되었습니다!");
+        history.replace("/login");
+      })
+      .catch((err) => {
+        window.alert(err.response.data.errorMessage);
+      });
+  };
+};
 
 //-----------------------reducer------------------------
 export default handleActions(
@@ -116,7 +126,7 @@ export default handleActions(
         draft.user = action.payload.user;
         draft.is_login = true;
 
-        console.log("action.payload.user",action.payload.user)
+        console.log("action.payload.user", action.payload.user);
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
@@ -124,7 +134,7 @@ export default handleActions(
         localStorage.removeItem("token");
         // deleteCookie("is_login");
         draft.user = null;
-        
+
         draft.is_login = false;
         // window.location.replace("/");
         // console.log("로그아웃합니다")
@@ -134,6 +144,38 @@ export default handleActions(
   initialState
 );
 
+
+
+
+// const loginDB = (nickname, password) => {
+//   return function (dispatch, getState, {history}) {
+//        api 
+//        .post('/users/auth', { nickname, password }) 
+//        .then((res) => {
+//             const token_res = res.headers.authorization; 
+//             setToken(token_res); 
+//             return token_res }
+//             ) 
+//             .then((token_res) => { 
+//                 api 
+//                 .get("/users/me", 
+//                      {headers: { "Authorization": `${token_res}` }}) 
+//                 .then((res) => {
+//                      dispatch(login(
+//                           { nickname: res.data.nickname }) 
+//                           ); 
+//                          }) 
+//                      } 
+//                      ) 
+//                      .catch(error){
+//                           alert(error.response.data.errorMessage) 
+//                          } 
+//                      }; 
+//                  };
+
+
+
+
 //action creator export
 const actionCreators = {
   login,
@@ -141,12 +183,10 @@ const actionCreators = {
   getUser,
   signUpDB,
   logOut,
-  loginCheckDB
+  loginCheckDB,
 };
 
 export { actionCreators };
-
-
 
 // const loginDB = (nickname, password) => {
 //   return function (dispatch, getState, { history }) {
@@ -158,21 +198,21 @@ export { actionCreators };
 //     .then((res) => {
 //       const token_res = res.headers.authorization;
 //       setToken(token_res);
-      
+
 //       return token_res
 //     })
 //     .then((token_res) =>{
-//       api({ 
-//         method: "post", 
-//         url: "/users/me", 
-//         headers: { 
-//           "Authorization": `${token_res}`, 
-//         }, 
+//       api({
+//         method: "post",
+//         url: "/users/me",
+//         headers: {
+//           "Authorization": `${token_res}`,
+//         },
 //       })
 //       .then((res) => {
 //         dispatch(login(
 //           {
-//             nickname: res.data.nickname          
+//             nickname: res.data.nickname
 //           })
 //         );
 //       })
@@ -183,8 +223,6 @@ export { actionCreators };
 //     };
 //   };
 // };
-
-
 
 // const loginDB = (nickname, password) => {
 //   return async function (dispatch, getState, { history }) {
@@ -214,10 +252,6 @@ export { actionCreators };
 //   };
 // };
 
-
-
-
-
 //회원가입
 // const signUp = (nickname, password, confirmPassword) => {
 //   return function (dispatch, getState, { history }) {
@@ -237,11 +271,6 @@ export { actionCreators };
 //       });
 //   };
 // };
-
-
-
-
-
 
 //아이디 중복확인 (아직수정필요)
 // const checkId = (nickname) => {
