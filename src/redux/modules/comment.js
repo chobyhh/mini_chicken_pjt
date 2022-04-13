@@ -5,8 +5,6 @@ import api from "../../api/api";
 
 const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
-const EDIT_COMMENT = "EDIT_COMMENT";
-const DELETE_COMMENT = "DELETE_COMMENT";
 
 const getComment = createAction(GET_COMMENT, (comment_list) => ({ comment_list }));
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
@@ -38,51 +36,38 @@ const addCommentDB = (post_id, comment, chickenMenu) => {
     // const user = getState().user.user;
     // console.log("dbwj",user)
     
-    const formData = new FormData();
-    formData.append('chickenMenu', comment.menu)
-    formData.append('comment', comment.comm)
-    
+    // const formData = new FormData();
+    // formData.append('chickenMenu', comment.menu)
+    // formData.append('comment', comment.comm)
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    // const config = {
+    //   headers: {
+    //     authorization: `Bearer ${token}`
+    //   }
+    // }
+    const body = {
+      chickenMenu : chickenMenu,
+      comment : comment
     }
-
-    console.log("formdata",formData)
-    console.log("config",config)
+    console.log("치킨",body)
+    // console.log("치킨",body)
+    
+    // console.log("formdata",formData)
+    // console.log("config",config)
     console.log(post_id)
     api
     .post(`/restaurants/${post_id}/comments`, 
-    
-
-      formData
-
-      // data:{
-      //   chickenMenu: comment.menu,
-      // // nickname : user.nickname,    
-      //   comment: comment.comm
-      // },
-    , 
-      config
+      body,
+      
     )
-    // .then((res)=>{
-    //   alert(res)
-    //   dispatch(addComment({
-    //     chickenMenu,
-    //     comment,
-        .then(
-        
-          dispatch(addComment({
-            chickenMenu,
-            comment,
-        // nickname : res.data.nickname
+    
+   .then(       
+        dispatch(addComment({
+          chickenMenu,
+          comment,
+      // nickname : res.data.nickname
         } 
       ))
-        
-      
-    
-
     )
     .catch((err) => {
       alert(2)
@@ -90,7 +75,6 @@ const addCommentDB = (post_id, comment, chickenMenu) => {
     })
   }
 }
-
 
 
 export default handleActions(
@@ -114,6 +98,7 @@ export default handleActions(
         draft.list.commentDb.unshift(action.payload.comment);
         console.log("결과값222",draft.list.commentDb)
       }),
+
   },
   initialState
 );
@@ -123,7 +108,8 @@ const actionCreators = {
   getComment,
   addComment,
   getCommentDB,
-  addCommentDB
+  addCommentDB,
+
 };
 
 export { actionCreators };

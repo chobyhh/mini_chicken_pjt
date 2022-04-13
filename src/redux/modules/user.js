@@ -31,9 +31,9 @@ const loginCheckDB = () => {
     api
     .post("/users/me", {}, {
       headers: { 
-        "content-type": "applicaton/json;charset=UTF-8", 
-        "accept": "application/json", 
-        "Authorization": `Bearer ${token}`, 
+        contentType: "applicaton/json;charset=UTF-8", 
+        accept: "application/json", 
+        authorization: `Bearer ${token}`, 
       },
     })
     .then((res) => {
@@ -68,9 +68,9 @@ const loginDB = (nickname, password) => {
         api
         .get("/users/me", {}, {
       headers: { 
-        "content-type": "applicaton/json;charset=UTF-8", 
-        "accept": "application/json", 
-        "Authorization": `Bearer ${token_res}`, 
+        contentType: "applicaton/json;charset=UTF-8", 
+        accept: "application/json", 
+        authorization: `Bearer ${token_res}`, 
       },
     })
         .then((res) => {
