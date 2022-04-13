@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Text, Button } from '../elements'
 import {history} from "../redux/configStore";
+import { getCookie } from '../shared/Cookie';
+import { actionCreators as userActions } from '../redux/modules/user';
 
 const Header = (props) => {
-  
+    const dispatch = useDispatch();
+    // const [is_login, setLogin] = useState(true);
+    const is_login = useSelector(state => state.user.is_login);
+    console.log("가져오냐",is_login)
+    const user = useSelector(state => state.user.user)
  
     return (
         <HeaderContainer>
@@ -20,25 +27,53 @@ const Header = (props) => {
             </Text>
           </div>
 
-         <ButtonContainer>
-          <Button 
-            margin="0px 10px 0px 0px"
-            text-size="20px" 
-            width="100px"
-            _onClick={()=>{history.replace('/login')}}
-          >
-            로그인
-          </Button>
-          <Button 
-            text-size="20px"
-            width="100px"
-            _onClick={()=>{history.replace("/signup")}}
-          >
-            회원가입
-          </Button>
-        </ButtonContainer>
+          {!is_login ? 
+            <ButtonContainer>
+              <Button 
+                margin="0px 10px 0px 0px"
+                text-size="16px" 
+                width="100px"
+                _onClick={() => {
+                  history.replace('/login')
+                }}
+              >
+                로그인
+              </Button>
+              <Button 
+                text-size="16px"
+                width="100px"
+                _onClick={() => {
+                  history.replace('/signup')
+                }} 
+              >
+                회원가입
+              </Button>
+            </ButtonContainer> :
 
-        </HeaderContainer>
+            <ButtonContainer>
+              <Button 
+                margin="0px 10px 0px 0px"
+                text-size="16px" 
+                width="120px"
+                _onClick={() => {
+                  history.replace(`/user/${user.nickname}`)
+                }}
+              >
+                마이 페이지
+              </Button>
+              <Button 
+                text-size="16px" 
+                width="120px"
+                _onClick={() => {
+                  dispatch(userActions.logOut());
+                  history.replace('/')
+                }}
+              >
+                로그아웃
+              </Button>
+            </ButtonContainer>
+          }
+          </HeaderContainer>
         
     );
 };
