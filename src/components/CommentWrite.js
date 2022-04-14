@@ -2,7 +2,7 @@ import React, { useState, Component, useRef  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { Input, Button, WriteInput } from '../elements';
+import { Input, Button, WriteInput, Text } from '../elements';
 import { actionCreators as commentActions } from '../redux/modules/comment';
 
 import { useParams } from 'react-router-dom';
@@ -19,8 +19,9 @@ const CommentWrite = (props) => {
   const {menu, comm} = comments;
 
   // const [selected, setSelected] = useState();
-  const [is_login, setLogin] = useState(true);
+  // const [is_login, setLogin] = useState(true);
   // const is_login = useSelector(state => state.user.isLogin);
+  const localStoragetokenCheck = localStorage.getItem('token');
 
   const comment_list = useSelector(state => state.comment.list);
   const brand_list = useSelector(state => state.post.list.restaurants);
@@ -39,7 +40,7 @@ const CommentWrite = (props) => {
   }
 
   const writeComment = () => {
-    if(!is_login) {
+    if(!localStoragetokenCheck) {
       window.alert("로그인 후 이용 가능합니다!")
       return
     }
@@ -77,6 +78,7 @@ const CommentWrite = (props) => {
         />
         <Button 
           width="80px"
+          bg= "#F9F7CF"
           _onClick={
             // writeComment();
       
@@ -85,7 +87,7 @@ const CommentWrite = (props) => {
             // setComment("");
           }
         >
-          작성
+          <Text size="20px">작성</Text>
         </Button>
       </WriteWrap>
     </>
@@ -98,7 +100,6 @@ const CommentWrite = (props) => {
 const WriteWrap = styled.div`
   margin: 0 auto;
   margin-bottom: 12px;
-  margin-top: 10%;
   width: 100%;
   max-width: 980px;
   display: flex;
@@ -108,28 +109,36 @@ const WriteWrap = styled.div`
 
 const CommentSelect = styled.select`
   padding: 0px 10px ;
+  margin-right:5px;
   width: 45%;
-  height: 42px;
-  border: 1px solid #c9c9c9;
-  border-radius: 20px;
+  height: 45px;
+  // border-bottom: 1px solid #c9c9c9;
+  // border-radius: 20px;
+  border : none;
+  border-bottom : 3px solid #EC524B;
+  
+
   box-sizing: border-box;
-  &:focus {
-    border: 1px solid #c9c9c9;
-    border-radius: 20px;
-  }
+  // &:focus {
+  //   border-bottom: 1px solid #c9c9c9;
+  //   border-radius: 20px;
+  // }
 `;
 
 const CommentInput = styled.input`
   padding: 0px 10px ;
   width: 100%;
   height: 42px;
-  border: 1px solid #c9c9c9;
-  border-radius: 20px;
-  box-sizing: border-box;
-  &:focus {
-    border: 1px solid #c9c9c9;
-    border-radius: 20px;
-  }
+  margin-left:"2px";
+  // border: 1px solid #c9c9c9;
+  // border-radius: 20px;
+  // box-sizing: border-box;
+  border : none;
+  border-bottom : 3px solid #EC524B;
+  // &:focus {
+  //   border-bottom: 1px solid #c9c9c9;
+  //   border-radius: 20px;
+  // }
 `;
 
 export default CommentWrite;

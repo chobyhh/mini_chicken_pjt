@@ -97,11 +97,12 @@ const CommentItem = (props) => {
         />
         <Button
           width="80px"
+          bg= "#F9F7CF"
           _onClick={((ed)=>edComment(
             props.commentIdx
           ))}
         >
-          수정
+          <Text size="20px">수정</Text>
         </Button>
       </CommnetWrap>
     );
@@ -110,26 +111,28 @@ const CommentItem = (props) => {
   return (
       <CommnetWrap>
         <ContentWrap>
-          <Text is_width="150px">{props.nickname}</Text>
-          <Text is_width="220px">{props.chickenMenu}</Text>
-          <Text is_width="520px">{props.comment}</Text>
+          <Text is_width="150px" size='20px'>{props.nickname}</Text>
+          <Text is_width="220px" size='20px'>{props.chickenMenu}</Text>
+          <Text is_width="520px" size='20px'>{props.comment}</Text>
         </ContentWrap>
         {
         (user.nickname === props.nickname) ?
           <ButtonWrap>
             <Button 
               width="40px"
+              bg= "#F9F7CF"
               _onClick={editChange}
             >
-              수정
+              <Text size="20px">수정</Text>
             </Button>
             <Button 
               width="40px"
+              bg= "#F9F7CF"
               _onClick={((del)=>delComment(
                 props.commentIdx
               ))}
             >
-              삭제
+              <Text size="20px">삭제</Text>
             </Button>
           </ButtonWrap>:
           null
@@ -140,7 +143,8 @@ const CommentItem = (props) => {
 
 const CommnetWrap = styled.div`
   margin: 0 auto;
-  margin-bottom: 8px;
+  margin-bottom: 0px;
+  margin-top: 10px;
   width: 100%;
   max-width: 980px;
   display: flex;

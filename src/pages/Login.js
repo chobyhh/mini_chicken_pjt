@@ -23,7 +23,7 @@ const Login = (props) => {
     <LoginWrap>
       <Text margin="0px 0px 48px 0px" size="48px" bold>로그인</Text>
       <ContentWrap>
-        <Text margin="0px 0px 8px 0px">닉네임</Text>
+        <Text margin="0px 0px 8px 0px" size="25px">닉네임</Text>
         <UserInput 
           _onChange={(e) => {
             setId(e.target.value);
@@ -32,7 +32,7 @@ const Login = (props) => {
           margin="0px 0px 36px 0px"
           value={nickname} 
         />
-        <Text margin="0px 0px 8px 0px">패스워드</Text>
+        <Text margin="0px 0px 8px 0px" size="25px">패스워드</Text>
         <UserInput 
           _onChange={(e) => {
             setPwd(e.target.value);
@@ -44,14 +44,14 @@ const Login = (props) => {
         />
       </ContentWrap>
       <ButtonWrap>
-        <Button width="48%" _onClick={login}>로그인</Button>
+        <Button width="48%" _onClick={login}><Text size="20px">로그인</Text></Button>
         <Button 
           width="48%"
           _onClick={()=>{
             history.push('/signup')
           }}
         >
-          회원가입
+          <Text size="20px">회원가입</Text>
         </Button>
       </ButtonWrap>
     </LoginWrap>
@@ -79,5 +79,3 @@ const ButtonWrap = styled.div`
 `;
 
 export default Login;
-
-

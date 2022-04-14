@@ -14,12 +14,14 @@ const CommentList = (props) => {
     const comment_list = useSelector(state => state.comment.list);
     const brand_list = useSelector(state => state.post.list.restaurants);
     const user = useSelector(state => state.user.user)
-    console.log("user",user.nickname)
     // console.log("뭐가 찍히는거지?",comment_list.commentDb)
 
     useEffect(() => {
-      dispatch(commentActions.getCommentDB(brand_list ? brand_list[list_id].restaurantTitle : ""));
-    }, [brand_list, dispatch, list_id]);
+      dispatch(commentActions.getCommentDB(
+        brand_list ? brand_list[list_id].restaurantTitle : "",
+        user
+        ));
+    }, [brand_list, dispatch, list_id,user]);
   
     return (
       <>

@@ -16,31 +16,59 @@ const Menu = (props) => {
     useEffect(() => {
         dispatch(commentActions.getCommentDB(brand_list ? brand_list[list_id].restaurantTitle : ""));
       }, [brand_list, dispatch, list_id]);
+      
+    
 
     return (
+        <>
+           
+                
         <table style={{
-            paddingTop:"15.7%",
+            // paddingTop:"9.2%",
             height:"100px",
-            width :"40%",
-            justifyContent:"center" ,
-            textAlign:"center", 
+            width :"45%",
+            justifyContent:"space-between" ,
+            // textAlign:"center", 
             alignItems:"center", 
-            paddingRight:"16px"
+            padding:"6px",
+            border: "5px double #EC524B",
+            borderRadius:"20px",
+            marginTop : "100px",
+            marginRight:"30px",
+            marginLeft:"auto",
+            // backgroundColor: "#f5f5dc"
             }}>
+                <tr>
+                <td style={{}}>
+                {/* <h1 style={{paddingLeft:"115px", color:"orange",textShadow:"1px 1px 1px #000"}}> */}
+                <h1 style={{color:"orange",textShadow:"1px 1px 1px #000", borderBottom:"1px solid orange"}}>
+                {/* <span>
+                {brand_list[list_id].restaurantTitle} 
+                </span>  */}
+                <span></span> MENU</h1>                 
+                </td>
+                <td/>
+                </tr>
+            
 
+                
+            
+                
             {
-            comment_list.menus?.map((e,i)=>{
+            // comment_list.menus?.map((e,i)=>{
+            comment_list.menus?.filter(e=>e.menuPrice !== "00").map((e,i)=>{
               console.log(e)   
               return(
-                  <tr style={{border:"1px solid #c9c9c9", height:"0px"}}>
-                      <td style={{border:"1px solid #c9c9c9", height:"35px", borderRadius:"20px"}}>{e.menuTitle} </td>
-                      <td style={{border:"1px solid #c9c9c9", borderRadius:"20px"}}>{e.menuPrice} </td>
-                      {/* <td style={{border:"1px solid black"}}>{e.price}</td> */}
+                  <tr border="1">
+                      <td colSpan={2} style={{border:"none", height:"34px", borderRadius:"20px", padding:"2px", fontWeight:"700"}}>{e.menuTitle} </td>
+                      <td style={{fontWeight:"600"}}>{e.menuPrice} </td>
                   </tr>
               )
              })
             }
           </table>
+        </>
+        
     );
 };
 

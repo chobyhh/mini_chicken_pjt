@@ -26,7 +26,7 @@ const Signup = (props) => {
     <SignupWrap>
       <Text margin="0px 0px 48px 0px" size="48px" bold>회원가입</Text>
       <ContentWrap>
-        <Text margin="0px 0px 8px 0px">닉네임</Text>
+        <Text margin="0px 0px 8px 0px" size='25px'>닉네임</Text>
         <UserInput 
           _onChange={(e) => {
             setId(e.target.value);
@@ -35,7 +35,7 @@ const Signup = (props) => {
           margin="0px 0px 24px 0px" 
           value={nickname}
         />
-        <Text margin="0px 0px 8px 0px">패스워드</Text>
+        <Text margin="0px 0px 8px 0px" size='25px'>패스워드</Text>
         <UserInput 
           _onChange={(e) => {
             setPwd(e.target.value);
@@ -45,7 +45,7 @@ const Signup = (props) => {
           value={password}
           type="password"
         />
-        <Text margin="0px 0px 8px 0px">패스워드 확인</Text>
+        <Text margin="0px 0px 8px 0px" size='25px'>패스워드 확인</Text>
         <UserInput 
           _onChange={(e) => {
             setPwdCheck(e.target.value);
@@ -61,7 +61,7 @@ const Signup = (props) => {
           width="48%"
           _onClick={signup}
         >
-          회원가입
+          <Text size="20px">회원가입</Text>
         </Button>
         <Button 
           width="48%"
@@ -69,7 +69,7 @@ const Signup = (props) => {
             history.push('/');
           }}
         >
-          취소
+          <Text size="20px">취소</Text>
         </Button>
       </ButtonWrap>
     </SignupWrap>
@@ -97,89 +97,3 @@ const ButtonWrap = styled.div`
 `;
 
 export default Signup;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from "react";
-// import { useHistory } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
-// import { Grid, Text, Input, Button } from "../elements";
-
-// import { actionCreators as userActions } from '../redux/modules/user';
-
-
-
-
-// const Signup = (props) => {
-//   return (
-//     <React.Fragment>
-//       <Grid padding="16px">
-//         <Text size="32px" bold>
-//           회원가입
-//         </Text>
-
-//         <Grid padding="16px 0px">
-//           <Input
-//             label="아이디"
-//             placeholder="아이디를 입력해주세요."
-//             _onChange={() => {
-//               console.log("아이디입력완료");
-//             }}
-//           />
-//         </Grid>
-
-
-//         <Grid padding="16px 0px">
-//           <Input
-//             label="비밀번호"
-//             placeholder="비밀번호를 입력해주세요."
-//             _onChange={() => {
-//               console.log("비밀번호입력완료");
-//             }}
-//           />
-//         </Grid>
-
-//         <Grid padding="16px 0px">
-//           <Input
-//             label="비밀번호 확인"
-//             placeholder="비밀번호를 다시 입력해주세요."
-//             _onChange={() => {
-//               console.log("비밀번호확인완료");
-//             }}
-//           />
-//         </Grid>
-
-//         <Button 
-//             type="submit"
-//             onClick={() => {
-//                 console.log("회원가입완료");
-//               }}
-//             text="회원가입하기">
-//         </Button>
-//       </Grid>
-//     </React.Fragment>
-//   );
-// };
-
-
-
-
-
-// Signup.defaultProps = {};
-
-// export default Signup;

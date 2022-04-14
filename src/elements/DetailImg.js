@@ -26,6 +26,7 @@ Image.defaultProps = {
 const AspectInner = styled.img`
   width: ${(props) => (props.width)};
   margin: ${(props) => (props.margin)};
+  width:450px;
   margin-top : 10%;
   min-height: 300px;
   max-height: 300px;
@@ -36,7 +37,7 @@ const AspectInner = styled.img`
   backgroung-size : cover;
   display: inline-block;
   justify-content: space-between;
-  border: 1px solid #c9c9c9;
+  border: 5px double #EC524B;
   border-radius : 20px;
 
 `;

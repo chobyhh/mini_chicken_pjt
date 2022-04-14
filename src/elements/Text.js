@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Text = (props) => {
-  const {bold, color, size, children, margin, _onClick, center, is_cursor, is_badge, is_badge2, is_width } = props;
+  const {bold, color, size, children, margin, _onClick, center, is_cursor, is_badge, is_badge2, is_width, family } = props;
 
   const styles = {
     margin: margin,
     bold: bold,
+    family: family,
     color: color,
     size: size,
     center: center,
@@ -34,6 +35,7 @@ const Text = (props) => {
 Text.defaultProps = {
   children: null,
   bold: false,
+  family:'Gamja Flower',
   color: '#222831',
   size: '14px',
   margin: 0,
@@ -61,6 +63,7 @@ const BadgeTwo = styled.p`
 
 const P = styled.p`
   color: ${(props) => props.color};
+  font-family: ${(props) => props.family};
   font-size: ${(props) => props.size};
   font-weight: ${(props) => (props.bold? "600" : "400")};
   margin: ${(props) => props.margin};
