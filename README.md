@@ -1,70 +1,61 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#항해 99 미니 프로젵그 2조 -FE (조병윤, 권효빈)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+와이어 프레임
+![image](https://user-images.githubusercontent.com/98735742/163386008-a66203cb-35cb-4079-b5e0-363849aaa228.png)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+##view
+---
+조병윤 : Main / Store / Detail / Element / Component
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+권효빈 : Login / Signup / Css
 
-### `npm test`
+##fucntion
+---
+조병윤 : Detail CRUD / Redux / Axios / Maintain is_login
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+권효빈 : Login / Signup / Axios / Maintain login
 
-### `npm run build`
+##component
+---
+Main page
+- Carousel
+- Post (Read)
+- Header (is_login)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Detail
+- 브랜드 로고(Read)
+- 메뉴판 (Read)
+- Comment (CRUD) / 댓글 Input 및 Select 활용하여 Create 구현 / 수정 및 삭제 기능 포함
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Login
+- 토큰 이용하여 로그인
+- ID, PW 유효성 검사
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Signup
+- 유효성 검사
 
-### `npm run eject`
+## 트러블 슈팅
+FE
+문제 1. [get]
+axios.get(url, {header}, {params});
+axios.get(url, { header: { auth: 'token' } }, { params : { userId: 'test1'} });
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+문제2. [post] or [put]
+axios.post(url, data, header); 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const formData = new FormData();
+formData.append('key', value);
+formData.append('key', value);
+const config = { header: { auth: 'token' } }
+axios.post(url, formData, config);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+문제3 .[delete]
+axios.get(url, { header: { auth: 'token' } }, { data : { userId: 'test1'} });
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+문제4. api.interceptor ↔ config 중복 사용에 따른 header 두번 요청(해결)
+문제 5. api request 시  body에 데이터를 담아내지 못함(해결)
+문제 6.  header.js 로그인 유지(해결)
