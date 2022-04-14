@@ -18,7 +18,7 @@ const initialState = {
   list: [],
 };
 
-const getCommentDB = (post_id) => {
+const getCommentDB = (post_id, user) => {
     console.log("포스트",post_id)
 
     // const token = localStorage.getItem('token');
@@ -27,8 +27,9 @@ const getCommentDB = (post_id) => {
         
         // console.log("getComment",response)
         // console.log("아이디",post_id)
-
+        
         dispatch(getComment(response.data))
+        // dispatch(push(`/restaurants/${post_id}`))
       // console.log(error);
     })
   };
@@ -157,6 +158,7 @@ export default handleActions(
         console.log("add_comment 실행")       
         draft.list.commentDb.push(action.payload.comment);
         console.log("add_comment 드래프트",draft.list.commentDb)
+        // window.location.reload()
         // draft.list.commentDb.unshift(action.payload.comment, action.payload.nickname);
         // console.log("결과값222",draft.list.commentDb)
       }),
@@ -173,7 +175,6 @@ export default handleActions(
         const new_comment_list = draft.list.commentDb.filter((c, i) => {
           return parseInt(action.payload.comment_idx) !== i;
         })
-
         draft.list.commentDb = new_comment_list;
       }),
 

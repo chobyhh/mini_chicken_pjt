@@ -17,15 +17,11 @@ const Header = (props) => {
     return (
         <HeaderContainer>
           <div>
-            <Text 
-              is_cursor
-              _onClick={()=>{history.replace('/')}}
-              size="22px" 
-              bold
-            >
-              {/* 치킨 어때? 로 바꾸기 */}
-              치킨 어때?   
-            </Text>
+          <img src='logo_1.png' 
+              back_size="100% 100%"
+              height="100px"
+              onClick={()=>{history.replace('/')}}
+            alt='logo'/>
           </div>
 
           {!localStoragetokenCheck ? 
@@ -34,43 +30,37 @@ const Header = (props) => {
                 margin="0px 10px 0px 0px"
                 text-size="16px" 
                 width="100px"
+                bg= "#F9F7CF"
                 _onClick={() => {
                   history.replace('/login')
                 }}
               >
-                로그인
+                <Text size="20px">로그인</Text>
               </Button>
               <Button 
                 text-size="16px"
                 width="100px"
+                bg= "#F9F7CF"
                 _onClick={() => {
                   history.replace('/signup')
                 }} 
               >
-                회원가입
+                <Text size="20px">회원가입</Text>
               </Button>
             </ButtonContainer> :
 
             <ButtonContainer>
-              <Button 
-                margin="0px 10px 0px 0px"
-                text-size="16px" 
-                width="120px"
-                _onClick={() => {
-                  history.replace(`/user/${user.nickname}`)
-                }}
-              >
-                마이 페이지
-              </Button>
+              
               <Button 
                 text-size="16px" 
                 width="120px"
+                bg= "#F9F7CF"
                 _onClick={() => {
                   dispatch(userActions.logOut());
                   history.replace('/')
                 }}
               >
-                로그아웃
+                <Text size="20px">로그아웃</Text>
               </Button>
             </ButtonContainer>
           }
@@ -83,8 +73,9 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
-  border-bottom: 1px solid black;
+  height: 90px;
+  border-bottom: 5px solid #EC524B;
+  background: #F9F7CF;
 `;
 
 const ButtonContainer = styled.div`

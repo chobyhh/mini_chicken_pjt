@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-const Image = (props) => {
+const CarouselImage = (props) => {
 
   const { src, width, margin } = props;
 
@@ -17,7 +17,7 @@ const Image = (props) => {
   );
 };
 
-Image.defaultProps = {
+CarouselImage.defaultProps = {
   src: "https://media.istockphoto.com/photos/dog-puppy-on-garden-picture-id1142412984?k=20&m=1142412984&s=170667a&w=0&h=VLomTUSZwXDrVauJrpiyMboe0Q7lUYYiMO89sFy2dgY=",
   width: "100%",
   margin: 0,
@@ -34,11 +34,7 @@ const AspectInner = styled.img`
   overflow: hidden;
   object-fit: cover;
   background-size : cover;
-  border-radius : 20px;
-  &:hover{
-    min-height: 320px;
-    max-height: 320px;
-  }
+
 `;
 
-export default Image;
+export default CarouselImage;
