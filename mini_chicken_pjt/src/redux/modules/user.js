@@ -153,6 +153,24 @@ export default handleActions(
 
 
 
+
+//action creator export
+const actionCreators = {
+  login,
+  loginDB,
+  getUser,
+  signUpDB,
+  logOut,
+  loginCheckDB,
+};
+
+export { actionCreators };
+
+
+
+
+
+
 // const loginDB = (nickname, password) => {
 //   return function (dispatch, getState, {history}) {
 //        api 
@@ -182,17 +200,6 @@ export default handleActions(
 
 
 
-//action creator export
-const actionCreators = {
-  login,
-  loginDB,
-  getUser,
-  signUpDB,
-  logOut,
-  loginCheckDB,
-};
-
-export { actionCreators };
 
 // const loginDB = (nickname, password) => {
 //   return function (dispatch, getState, { history }) {
